@@ -50,11 +50,11 @@ class GameState:
 
         # player velocity, max velocity, downward accleration, accleration on flap
         self.pipeVelX = -4
-        self.playerVelY    =  0    # player's velocity along Y, default same as playerFlapped
-        self.playerMaxVelY =  10   # max vel along Y, max descend speed
-        self.playerMinVelY =  -8   # min vel along Y, max ascend speed
-        self.playerAccY    =   1   # players downward accleration
-        self.playerFlapAcc =  -7   # players speed on flapping
+        self.playerVelY = 0    # player's velocity along Y, default same as playerFlapped
+        self.playerMaxVelY = 10   # max vel along Y, max descend speed
+        self.playerMinVelY = -8   # min vel along Y, max ascend speed
+        self.playerAccY = 1  # players downward accleration
+        self.playerFlapAcc = -7   # players speed on flapping
         self.playerFlapped = False # True when player flaps
 
     def frame_step(self, input_actions):
@@ -72,7 +72,7 @@ class GameState:
             if self.playery > -2 * PLAYER_HEIGHT:
                 self.playerVelY = self.playerFlapAcc
                 self.playerFlapped = True
-                #SOUNDS['wing'].play()
+                SOUNDS['wing'].play()
 
         # check for score
         playerMidPos = self.playerx + PLAYER_WIDTH / 2
@@ -80,7 +80,7 @@ class GameState:
             pipeMidPos = pipe['x'] + PIPE_WIDTH / 2
             if pipeMidPos <= playerMidPos < pipeMidPos + 4:
                 self.score += 1
-                #SOUNDS['point'].play()
+                SOUNDS['point'].play()
                 reward = 1
 
         # playerIndex basex change
@@ -119,8 +119,8 @@ class GameState:
                              'index': self.playerIndex},
                             self.upperPipes, self.lowerPipes)
         if isCrash:
-            #SOUNDS['hit'].play()
-            #SOUNDS['die'].play()
+            SOUNDS['hit'].play()
+            SOUNDS['die'].play()
             terminal = True
             self.__init__()
             reward = -1
@@ -135,6 +135,7 @@ class GameState:
         SCREEN.blit(IMAGES['base'], (self.basex, BASEY))
         # print score so player overlaps the score
         # showScore(self.score)
+        print(self.score)
         SCREEN.blit(IMAGES['player'][self.playerIndex],
                     (self.playerx, self.playery))
 

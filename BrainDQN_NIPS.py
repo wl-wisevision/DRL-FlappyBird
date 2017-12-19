@@ -93,6 +93,7 @@ class BrainDQN:
 
 		# Step 2: calculate y 
 		y_batch = []
+			# get Qvalue from next_state using trained network, further we get y
 		QValue_batch = self.QValue.eval(feed_dict={self.stateInput:nextState_batch})
 		for i in range(0,BATCH_SIZE):
 			terminal = minibatch[i][4]

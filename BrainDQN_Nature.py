@@ -38,12 +38,18 @@ class BrainDQN:
 		self.epsilon = INITIAL_EPSILON
 		self.actions = actions
 		# init Q network
-		self.stateInput,self.QValue,self.W_conv1,self.b_conv1,self.W_conv2,self.b_conv2,self.W_conv3,self.b_conv3,self.W_fc1,self.b_fc1,self.W_fc2,self.b_fc2 = self.createQNetwork()
+		self.stateInput,self.QValue,self.W_conv1,self.b_conv1,self.W_conv2,self.b_conv2,self.W_conv3,\
+		self.b_conv3,self.W_fc1,self.b_fc1,self.W_fc2,self.b_fc2 = self.createQNetwork()
 
 		# init Target Q Network
-		self.stateInputT,self.QValueT,self.W_conv1T,self.b_conv1T,self.W_conv2T,self.b_conv2T,self.W_conv3T,self.b_conv3T,self.W_fc1T,self.b_fc1T,self.W_fc2T,self.b_fc2T = self.createQNetwork()
+		self.stateInputT,self.QValueT,self.W_conv1T,self.b_conv1T,self.W_conv2T,self.b_conv2T,\
+		self.W_conv3T,self.b_conv3T,self.W_fc1T,self.b_fc1T,self.W_fc2T,self.b_fc2T = self.createQNetwork()
 
-		self.copyTargetQNetworkOperation = [self.W_conv1T.assign(self.W_conv1),self.b_conv1T.assign(self.b_conv1),self.W_conv2T.assign(self.W_conv2),self.b_conv2T.assign(self.b_conv2),self.W_conv3T.assign(self.W_conv3),self.b_conv3T.assign(self.b_conv3),self.W_fc1T.assign(self.W_fc1),self.b_fc1T.assign(self.b_fc1),self.W_fc2T.assign(self.W_fc2),self.b_fc2T.assign(self.b_fc2)]
+		self.copyTargetQNetworkOperation = [self.W_conv1T.assign(self.W_conv1),self.b_conv1T.assign(self.b_conv1),
+											self.W_conv2T.assign(self.W_conv2),self.b_conv2T.assign(self.b_conv2),
+											self.W_conv3T.assign(self.W_conv3),self.b_conv3T.assign(self.b_conv3),
+											self.W_fc1T.assign(self.W_fc1),self.b_fc1T.assign(self.b_fc1),
+											self.W_fc2T.assign(self.W_fc2),self.b_fc2T.assign(self.b_fc2)]
 
 		self.createTrainingMethod()
 
@@ -161,7 +167,7 @@ class BrainDQN:
 			state = "train"
 
 		print ("TIMESTEP", self.timeStep, "/ STATE", state, \
-            "/ EPSILON", self.epsilon)
+            "/ EPSILON", self.epsilon, '/action', action[0])
 
 		self.currentState = newState
 		self.timeStep += 1
@@ -180,7 +186,7 @@ class BrainDQN:
 		else:
 			action[0] = 1 # do nothing
 
-		# change episilon
+		# scale down episilon
 		if self.epsilon > FINAL_EPSILON and self.timeStep > OBSERVE:
 			self.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/EXPLORE
 
